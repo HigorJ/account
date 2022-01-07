@@ -15,20 +15,30 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    // C - POST
-    // R - GET
-    // U - PUT/PATCH
-    // D - DELETE
+    @GetMapping("/{userId}")
+    public Account getAccount(@PathVariable("userId") Long userId) {
+        return this.accountService.getAccount(userId);
+    }
 
-    @PostMapping // POST /api/v1/accounts
+    @GetMapping
+    public List<AccountIdAndUsername> searchByUsernameAlike(@RequestParam("usernameAlike") String usernameAlike) {
+        return this.accountService.searchByUsernameAlike(usernameAlike);
+    }
+
+    @PostMapping
     public Account createAccount(@RequestBody Account account) {
         return this.accountService.createAccount(account);
     }
 
-    // query string
-    // GET /api/v1/account?username=joao
-    @GetMapping
-    public List<AccountIdAndUsername> searcByUsernameAlike(@RequestParam("usernameAlike") String usernameAlike) {
-        return this.accountService.searchByUsernameAlike(usernameAlike);
+    @PutMapping("/{userId}")
+    public Account updateAccount(@PathVariable("userId") Long userId, @RequestBody Account newData) {
+        return this.accountService.updateAccount(userId, newData);
+    }
+
+    @DeleteMapping("/{userId}")
+    public String deleteAccount(@PathVariable("userId") Long userId) {
+        this.accountService.deleteAccount(userId);
+
+        return "Conta deletada com sucesso!";
     }
 }
